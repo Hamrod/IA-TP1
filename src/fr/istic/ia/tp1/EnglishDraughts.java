@@ -144,10 +144,7 @@ public class EnglishDraughts extends Game {
      * @return
      */
     boolean isEmpty(int square) {
-        if (board.get(square) == board.EMPTY) {
-            return true;
-        }
-        return false;
+        return (board.get(square) == board.EMPTY);
     }
 
     /**
@@ -175,7 +172,6 @@ public class EnglishDraughts extends Game {
         } else if (playerId == playerId.TWO && (board.get(square) == board.BLACK_KING || board.get(square) == board.BLACK_CHECKER)) {
             return true;
         }
-
         return false;
     }
 
