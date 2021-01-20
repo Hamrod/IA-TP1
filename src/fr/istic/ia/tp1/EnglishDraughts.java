@@ -183,10 +183,18 @@ public class EnglishDraughts extends Game {
      * @return The list of current player pawn positions
      */
     ArrayList<Integer> myPawns() {
-        //
-        // TODO myPawns
-        //
-        return null;
+        switch (playerId){
+            case ONE ->{
+                return board.getWhitePawns();
+            }
+            case TWO -> {
+                return board.getBlackPawns();
+            }
+            case NONE -> {
+                return new ArrayList<>();
+            }
+        }
+        return new ArrayList<>();
     }
 
 
