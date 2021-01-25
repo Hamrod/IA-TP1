@@ -207,7 +207,7 @@ public class EnglishDraughts extends Game {
     public List<Move> possibleMoves() {
         //
         // TODO generate the list of possible moves
-        //
+
         // Advice:
         // create two auxiliary functions :
         // - one for jump moves from a given position, with capture (and multi-capture).
@@ -215,8 +215,28 @@ public class EnglishDraughts extends Game {
         // - one function that returns the displacement moves from a given position (without capture)
         //
         ArrayList<Move> moves = new ArrayList<Move>();
+
+
+
+
+
         return moves;
     }
+
+    private  ArrayList<Move> listDisplacements(int square){
+        ArrayList<Move> moves = new ArrayList<Move>();
+        float ligne = square/4f;
+        Math.ceil(ligne);
+        if(ligne % 2 == 0){
+            // +3 a gauche et + 4 a droite
+
+
+        }else {
+            // +4 a gauche et + 5 a droite
+        }
+        return moves;
+    }
+
 
     @Override
     public void play(Move aMove) {
