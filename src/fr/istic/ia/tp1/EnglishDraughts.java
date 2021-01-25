@@ -144,7 +144,7 @@ public class EnglishDraughts extends Game {
      * @return
      */
     boolean isEmpty(int square) {
-        return board.isEmpty();
+        return board.isEmpty(square);
     }
 
     /**
@@ -261,7 +261,7 @@ public class EnglishDraughts extends Game {
         // Next player
 
         // Update nbTurn
-
+        nbTurn++;
         // Keep track of successive moves with kings wthout capture
 
     }
@@ -283,6 +283,9 @@ public class EnglishDraughts extends Game {
         //
         // TODO implement winner
         //
+        if( board.getWhitePawns().isEmpty()) return PlayerId.TWO;
+        else if (board.getBlackPawns().isEmpty()) return PlayerId.ONE;
+
 
         // return the winner ID if possible
 
