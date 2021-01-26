@@ -183,8 +183,8 @@ public class EnglishDraughts extends Game {
      * @return The list of current player pawn positions
      */
     ArrayList<Integer> myPawns() {
-        switch (playerId){
-            case ONE ->{
+        switch (playerId) {
+            case ONE -> {
                 return board.getWhitePawns();
             }
             case TWO -> {
@@ -217,24 +217,16 @@ public class EnglishDraughts extends Game {
         ArrayList<Move> moves = new ArrayList<Move>();
 
 
-
-
-
         return moves;
     }
 
-    private  ArrayList<Move> listDisplacements(int square){
-        ArrayList<Move> moves = new ArrayList<Move>();
-        float ligne = square/4f;
-        Math.ceil(ligne);
-        if(ligne % 2 == 0){
-            // +3 a gauche et + 4 a droite
+    private ArrayList<Move> listMovements(int square) {
+        ArrayList<Integer> moves = new ArrayList<Integer>();
+        if (!board.inRightRow(square)) {
 
-
-        }else {
-            // +4 a gauche et + 5 a droite
         }
-        return moves;
+
+        return new ArrayList<Move>();
     }
 
 
@@ -255,15 +247,31 @@ public class EnglishDraughts extends Game {
         //
 
         // Move pawn and capture opponents
+        //TODO
 
         // Promote to king if the pawn ends on the opposite of the board
+        int squarePawn =move.get(move.size());
+
+        if (this.playerId == playerId.ONE) {
+            if (board.inTopRow(squarePawn) && board.get(squarePawn) == board.WHITE_CHECKER){
+                board.set(move.get(move.size()), board.WHITE_CHECKER);
+            }
+        } else {
+            if (board.inBottomRow(squarePawn) && board.get(squarePawn) == board.BLACK_CHECKER) {
+                board.set(move.get(move.size()), board.BLACK_CHECKER);
+            }
+        }
 
         // Next player
-
+        if (player() == playerId.ONE) {
+            this.playerId = playerId.TWO;
+        } else {
+            this.playerId = playerId.ONE;
+        }
         // Update nbTurn
         nbTurn++;
-        // Keep track of successive moves with kings wthout capture
-
+        // Keep track of successive moves with kings without capture
+        //TODO
     }
 
     @Override
@@ -283,7 +291,7 @@ public class EnglishDraughts extends Game {
         //
         // TODO implement winner
         //
-        if( board.getWhitePawns().isEmpty()) return PlayerId.TWO;
+        if (board.getWhitePawns().isEmpty()) return PlayerId.TWO;
         else if (board.getBlackPawns().isEmpty()) return PlayerId.ONE;
 
 
