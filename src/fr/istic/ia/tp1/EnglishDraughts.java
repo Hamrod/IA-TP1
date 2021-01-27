@@ -214,7 +214,7 @@ public class EnglishDraughts extends Game {
         //    Use recursive calls to explore all multiple capture possibilities
         // - one function that returns the displacement moves from a given position (without capture)
         //
-        ArrayList<Move> moves = new ArrayList<Move>();
+        ArrayList<Move> moves = new ArrayList<>();
 
 
         return moves;
@@ -249,16 +249,17 @@ public class EnglishDraughts extends Game {
         // Move pawn and capture opponents
         //TODO
 
+
         // Promote to king if the pawn ends on the opposite of the board
-        int squarePawn =move.get(move.size());
+        int squarePawn = move.get(move.size());
 
         if (this.playerId == playerId.ONE) {
-            if (board.inTopRow(squarePawn) && board.get(squarePawn) == board.WHITE_CHECKER){
-                board.set(move.get(move.size()), board.WHITE_CHECKER);
+            if (board.inTopRow(squarePawn) && board.get(squarePawn) == board.WHITE_CHECKER) {
+                board.crownPawn(move.get(move.size()));
             }
         } else {
             if (board.inBottomRow(squarePawn) && board.get(squarePawn) == board.BLACK_CHECKER) {
-                board.set(move.get(move.size()), board.BLACK_CHECKER);
+                board.crownPawn(move.get(move.size()));
             }
         }
 
