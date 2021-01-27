@@ -247,7 +247,31 @@ public class EnglishDraughts extends Game {
         //
 
         // Move pawn and capture opponents
-        //TODO
+        //FIXME Ne fonctionne probablement pas
+        Iterator<Integer> it = move.iterator();
+        Integer from = it.next();
+        StringBuffer sb = new StringBuffer();
+        sb.append(from);
+        while (it.hasNext()) {
+            Integer to = it.next();
+            Byte valSquare = board.get(from);
+            board.removePawn(from);
+            board.set(to, valSquare);
+
+            if (!isACap(from, to)) {
+                if (board.neighborDownLeft(from) == board.neighborUpRight(to)) {
+                    board.removePawn(board.neighborDownLeft(from));
+                } else if (board.neighborDownRight(from) == board.neighborDownLeft(to)) {
+                    board.removePawn(board.neighborDownRight(from));
+                } else if (board.neighborUpRight(from) == board.neighborDownLeft(to)) {
+                    board.removePawn(board.neighborUpRight(from));
+                } else if (board.neighborUpLeft(from) == board.neighborDownRight(to)) {
+                    board.removePawn(board.neighborUpLeft(from));
+                }
+            }
+
+            it.next();
+        }
 
 
         // Promote to king if the pawn ends on the opposite of the board
@@ -274,6 +298,17 @@ public class EnglishDraughts extends Game {
         // Keep track of successive moves with kings without capture
         //TODO
     }
+
+    /**
+     * @return true si le déplacement est une capture false sinon
+     */
+    private boolean isACap(int initSquare, int destSquare) {
+        if ((destSquare == board.neighborUpLeft(initSquare)) || (destSquare == board.neighborDownLeft(initSquare))
+                || (destSquare == board.neighborUpRight(initSquare)) || (destSquare == board.neighborDownRight(initSquare)))
+            return false;
+        else return true;
+    }
+
 
     @Override
     public PlayerId player() {
