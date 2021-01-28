@@ -40,6 +40,7 @@ public class EnglishDraughts extends Game {
      */
     int nbKingMovesWithoutCapture;
 
+
     /**
      * Class representing a move in the English draughts game
      * A move is an ArrayList of Integers, corresponding to the successive tile numbers (Manouri notation)
@@ -324,18 +325,12 @@ public class EnglishDraughts extends Game {
      */
     @Override
     public PlayerId winner() {
-        //
-        // TODO implement winner
-        //
+        // return the winner ID if possible
         if (board.getWhitePawns().isEmpty()) return PlayerId.TWO;
         else if (board.getBlackPawns().isEmpty()) return PlayerId.ONE;
-
-
-        // return the winner ID if possible
-
-        // return PlayerId.NONE if the game is null
-
-        // Return null is the game has not ended yet
-        return null;
+            // return PlayerId.NONE if the game is null
+        else if (nbKingMovesWithoutCapture >= 25) return PlayerId.NONE;
+            // Return null is the game has not ended yet
+        else return null;
     }
 }
