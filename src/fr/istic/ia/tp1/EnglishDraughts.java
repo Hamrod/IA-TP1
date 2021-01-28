@@ -256,19 +256,16 @@ public class EnglishDraughts extends Game {
         while (it.hasNext()) {
             Integer to = it.next();
             Byte valSquare = board.get(from);
-            board.removePawn(from);
-            board.set(to, valSquare);
+            board.movePawn(from, to);
 
-            if (!isACap(from, to)) {
-                if (board.neighborDownLeft(from) == board.neighborUpRight(to)) {
-                    board.removePawn(board.neighborDownLeft(from));
-                } else if (board.neighborDownRight(from) == board.neighborDownLeft(to)) {
-                    board.removePawn(board.neighborDownRight(from));
-                } else if (board.neighborUpRight(from) == board.neighborDownLeft(to)) {
-                    board.removePawn(board.neighborUpRight(from));
-                } else if (board.neighborUpLeft(from) == board.neighborDownRight(to)) {
-                    board.removePawn(board.neighborUpLeft(from));
-                }
+            if (board.neighborDownLeft(from) == board.neighborUpRight(to)) {
+                board.removePawn(board.neighborDownLeft(from));
+            } else if (board.neighborDownRight(from) == board.neighborDownLeft(to)) {
+                board.removePawn(board.neighborDownRight(from));
+            } else if (board.neighborUpRight(from) == board.neighborDownLeft(to)) {
+                board.removePawn(board.neighborUpRight(from));
+            } else if (board.neighborUpLeft(from) == board.neighborDownRight(to)) {
+                board.removePawn(board.neighborUpLeft(from));
             }
 
             it.next();
@@ -298,16 +295,6 @@ public class EnglishDraughts extends Game {
         nbTurn++;
         // Keep track of successive moves with kings without capture
         //TODO
-    }
-
-    /**
-     * @return true si le déplacement est une capture false sinon
-     */
-    private boolean isACap(int initSquare, int destSquare) {
-        if ((destSquare == board.neighborUpLeft(initSquare)) || (destSquare == board.neighborDownLeft(initSquare))
-                || (destSquare == board.neighborUpRight(initSquare)) || (destSquare == board.neighborDownRight(initSquare)))
-            return false;
-        else return true;
     }
 
 
