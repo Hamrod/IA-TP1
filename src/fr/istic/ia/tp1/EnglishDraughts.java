@@ -256,16 +256,8 @@ public class EnglishDraughts extends Game {
         while (it.hasNext()) {
             Integer to = it.next();
             board.movePawn(from, to);
-
-            if (board.neighborDownLeft(from) == board.neighborUpRight(to)) {
-                board.removePawn(board.neighborDownLeft(from));
-            } else if (board.neighborDownRight(from) == board.neighborDownLeft(to)) {
-                board.removePawn(board.neighborDownRight(from));
-            } else if (board.neighborUpRight(from) == board.neighborDownLeft(to)) {
-                board.removePawn(board.neighborUpRight(from));
-            } else if (board.neighborUpLeft(from) == board.neighborDownRight(to)) {
-                board.removePawn(board.neighborUpLeft(from));
-            }
+            int pawnTaken = board.squareBetween(from, to);
+            if (pawnTaken != 0) board.removePawn(pawnTaken);
 
            from = to;
         }
