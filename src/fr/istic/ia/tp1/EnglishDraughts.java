@@ -255,7 +255,6 @@ public class EnglishDraughts extends Game {
         sb.append(from);
         while (it.hasNext()) {
             Integer to = it.next();
-            Byte valSquare = board.get(from);
             board.movePawn(from, to);
 
             if (board.neighborDownLeft(from) == board.neighborUpRight(to)) {
@@ -268,7 +267,7 @@ public class EnglishDraughts extends Game {
                 board.removePawn(board.neighborUpLeft(from));
             }
 
-            it.next();
+           from = to;
         }
 
 
