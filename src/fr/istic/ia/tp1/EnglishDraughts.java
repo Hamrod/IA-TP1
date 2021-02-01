@@ -217,6 +217,12 @@ public class EnglishDraughts extends Game {
         //
         ArrayList<Move> moves = new ArrayList<>();
 
+        for (int p :
+                board.getWhitePawns()) {
+            DraughtsMove move = new DraughtsMove();
+            move.add(p);
+            moves.addAll(possibleCaptureMovements(move));
+        }
 
         return moves;
     }
@@ -228,6 +234,60 @@ public class EnglishDraughts extends Game {
         }
 
         return new ArrayList<Move>();
+    }
+
+    private ArrayList<Move> possibleCaptureMovements(DraughtsMove move) {
+
+        ArrayList<Move> moves = new ArrayList<>();
+        int from = move.get(move.size()-1);
+        int pawn = move.get(0);
+
+        if (board.isWhite(pawn) || board.isKing(pawn)) {
+
+            int upLeft = board.neighborUpLeft(from);
+            int upRight = board.neighborUpRight(from);
+
+            if (upLeft != -1) {
+                if (isAdversary(upLeft) && isEmpty(board.neighborUpLeft(upLeft))) {
+                    DraughtsMove upLeftMove = new DraughtsMove();
+                    upLeftMove.addAll(move);
+                    upLeftMove.add(board.neighborUpLeft(upLeft));
+                    moves.addAll(possibleCaptureMovements(upLeftMove));
+                }
+            }
+            if (upRight != -1) {
+                if (isAdversary(upRight) && isEmpty(board.neighborUpLeft(upRight))) {
+                    DraughtsMove upRightMove = new DraughtsMove();
+                    upRightMove.addAll(move);
+                    upRightMove.add(board.neighborUpLeft(upRight));
+                    moves.addAll(possibleCaptureMovements(upRightMove));
+                }
+            }
+
+        } else if (board.isBlack(pawn) || board.isKing(pawn)) {
+
+            int downLeft = board.neighborDownLeft(from);
+            int downRight = board.neighborDownRight(from);
+
+            if (downLeft != -1) {
+                if (isAdversary(downLeft) && isEmpty(board.neighborUpLeft(downLeft))) {
+                    DraughtsMove downLeftMove = new DraughtsMove();
+                    downLeftMove.addAll(move);
+                    downLeftMove.add(board.neighborUpLeft(downLeft));
+                    moves.addAll(possibleCaptureMovements(downLeftMove));
+                }
+            }
+            if (downRight != -1) {
+                if (isAdversary(downRight) && isEmpty(board.neighborUpLeft(downRight))) {
+                    DraughtsMove downRightMove = new DraughtsMove();
+                    downRightMove.addAll(move);
+                    downRightMove.add(board.neighborUpLeft(downRight));
+                    moves.addAll(possibleCaptureMovements(downRightMove));
+                }
+            }
+        }
+
+        return moves;
     }
 
 
