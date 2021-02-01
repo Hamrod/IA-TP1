@@ -242,11 +242,6 @@ public class EnglishDraughts extends Game {
         // Cast and apply the move
         DraughtsMove move = (DraughtsMove) aMove;
 
-
-        //
-        // TODO implement play
-        //
-
         // Move pawn and capture opponents
         //FIXME Ne fonctionne probablement pas
         Iterator<Integer> it = move.iterator();
@@ -257,7 +252,10 @@ public class EnglishDraughts extends Game {
             Integer to = it.next();
             board.movePawn(from, to);
             int pawnTaken = board.squareBetween(from, to);
-            if (pawnTaken != 0) board.removePawn(pawnTaken);
+            if (pawnTaken != 0) {
+                board.removePawn(pawnTaken);
+                nbKingMovesWithoutCapture = -1;
+            }
 
            from = to;
         }
@@ -285,7 +283,7 @@ public class EnglishDraughts extends Game {
         // Update nbTurn
         nbTurn++;
         // Keep track of successive moves with kings without capture
-        //TODO
+        nbKingMovesWithoutCapture++;
     }
 
 
