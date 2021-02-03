@@ -218,22 +218,71 @@ public class EnglishDraughts extends Game {
         ArrayList<Move> moves = new ArrayList<>();
 
         for (int p :
-                board.getWhitePawns()) {
+                myPawns()) {
             DraughtsMove move = new DraughtsMove();
+            ArrayList<Move> moves2 = new ArrayList<>();
             move.add(p);
-            moves.addAll(possibleCaptureMovements(move));
+            moves2.addAll(possibleCaptureMovements(move));
+            if (moves2.isEmpty()) {
+                moves2.addAll(noCaptureMovements(p));
+            }
+            moves.addAll(moves2);
         }
 
+        System.out.println(moves);
         return moves;
     }
 
-    private ArrayList<Move> listMovements(int square) {
-        ArrayList<Integer> moves = new ArrayList<Integer>();
-        if (!board.inRightRow(square)) {
+    private ArrayList<Move> noCaptureMovements(int from) {
+        ArrayList<Move> moves = new ArrayList<>();
+
+        if (board.isWhite(from) || board.isKing(from)) {
+
+            int upLeft = board.neighborUpLeft(from);
+            int upRight = board.neighborUpRight(from);
+
+            if (upLeft != 0) {
+                if (isEmpty(upLeft)) {
+                    DraughtsMove upLeftMove = new DraughtsMove();
+                    upLeftMove.add(from);
+                    upLeftMove.add(upLeft);
+                    moves.add(upLeftMove);
+                }
+            }
+            if (upRight != 0) {
+                if (isEmpty(upRight)) {
+                    DraughtsMove upRightMove = new DraughtsMove();
+                    upRightMove.add(from);
+                    upRightMove.add(upRight);
+                    moves.add(upRightMove);
+                }
+            }
+
+        } else if (board.isBlack(from) || board.isKing(from)) {
+
+            int downLeft = board.neighborDownLeft(from);
+            int downRight = board.neighborDownRight(from);
+
+            if (downLeft != 0) {
+                if (isEmpty(downLeft)) {
+                    DraughtsMove downLeftMove = new DraughtsMove();
+                    downLeftMove.add(from);
+                    downLeftMove.add(downLeft);
+                    moves.add(downLeftMove);
+                }
+            }
+            if (downRight != 0) {
+                if (isEmpty(downRight)) {
+                    DraughtsMove downRightMove = new DraughtsMove();
+                    downRightMove.add(from);
+                    downRightMove.add(downRight);
+                    moves.add(downRightMove);
+                }
+            }
 
         }
 
-        return new ArrayList<Move>();
+        return moves;
     }
 
     private ArrayList<Move> possibleCaptureMovements(DraughtsMove move) {
@@ -241,13 +290,14 @@ public class EnglishDraughts extends Game {
         ArrayList<Move> moves = new ArrayList<>();
         int from = move.get(move.size()-1);
         int pawn = move.get(0);
+        System.out.println(pawn);
 
         if (board.isWhite(pawn) || board.isKing(pawn)) {
 
             int upLeft = board.neighborUpLeft(from);
             int upRight = board.neighborUpRight(from);
 
-            if (upLeft != -1) {
+            if (upLeft != 0) {
                 if (isAdversary(upLeft) && isEmpty(board.neighborUpLeft(upLeft))) {
                     DraughtsMove upLeftMove = new DraughtsMove();
                     upLeftMove.addAll(move);
@@ -255,11 +305,11 @@ public class EnglishDraughts extends Game {
                     moves.addAll(possibleCaptureMovements(upLeftMove));
                 }
             }
-            if (upRight != -1) {
-                if (isAdversary(upRight) && isEmpty(board.neighborUpLeft(upRight))) {
+            if (upRight != 0) {
+                if (isAdversary(upRight) && isEmpty(board.neighborUpRight(upRight))) {
                     DraughtsMove upRightMove = new DraughtsMove();
                     upRightMove.addAll(move);
-                    upRightMove.add(board.neighborUpLeft(upRight));
+                    upRightMove.add(board.neighborUpRight(upRight));
                     moves.addAll(possibleCaptureMovements(upRightMove));
                 }
             }
@@ -269,19 +319,20 @@ public class EnglishDraughts extends Game {
             int downLeft = board.neighborDownLeft(from);
             int downRight = board.neighborDownRight(from);
 
-            if (downLeft != -1) {
-                if (isAdversary(downLeft) && isEmpty(board.neighborUpLeft(downLeft))) {
+            if (downLeft != 0) {
+                if (isAdversary(downLeft) && isEmpty(board.neighborDownLeft(downLeft))) {
                     DraughtsMove downLeftMove = new DraughtsMove();
                     downLeftMove.addAll(move);
-                    downLeftMove.add(board.neighborUpLeft(downLeft));
+                    downLeftMove.add(board.neighborDownLeft(downLeft));
                     moves.addAll(possibleCaptureMovements(downLeftMove));
+                    System.out.println(moves);
                 }
             }
-            if (downRight != -1) {
-                if (isAdversary(downRight) && isEmpty(board.neighborUpLeft(downRight))) {
+            if (downRight != 0) {
+                if (isAdversary(downRight) && isEmpty(board.neighborDownRight(downRight))) {
                     DraughtsMove downRightMove = new DraughtsMove();
                     downRightMove.addAll(move);
-                    downRightMove.add(board.neighborUpLeft(downRight));
+                    downRightMove.add(board.neighborDownRight(downRight));
                     moves.addAll(possibleCaptureMovements(downRightMove));
                 }
             }
@@ -322,7 +373,7 @@ public class EnglishDraughts extends Game {
 
 
         // Promote to king if the pawn ends on the opposite of the board
-        int squarePawn = move.get(move.size());
+        int squarePawn = move.get(move.size()-1);
 
         if (this.playerId == playerId.ONE) {
             if (board.inTopRow(squarePawn) && board.get(squarePawn) == board.WHITE_CHECKER) {
