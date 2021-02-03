@@ -206,9 +206,6 @@ public class EnglishDraughts extends Game {
      */
     @Override
     public List<Move> possibleMoves() {
-        //
-        // TODO generate the list of possible moves
-
         // Advice:
         // create two auxiliary functions :
         // - one for jump moves from a given position, with capture (and multi-capture).
@@ -259,7 +256,8 @@ public class EnglishDraughts extends Game {
                 }
             }
 
-        } else if (board.isBlack(from) || board.isKing(from)) {
+        }
+        if (board.isBlack(from) || board.isKing(from)) {
 
             int downLeft = board.neighborDownLeft(from);
             int downRight = board.neighborDownRight(from);
@@ -289,9 +287,8 @@ public class EnglishDraughts extends Game {
     private ArrayList<Move> possibleCaptureMovements(DraughtsMove move) {
 
         ArrayList<Move> moves = new ArrayList<>();
-        int from = move.get(move.size()-1);
+        int from = move.get(move.size() - 1);
         int pawn = move.get(0);
-        System.out.println(pawn);
 
         if (board.isWhite(pawn) || board.isKing(pawn)) {
 
@@ -329,7 +326,8 @@ public class EnglishDraughts extends Game {
                 }
             }
 
-        } else if (board.isBlack(pawn) || board.isKing(pawn)) {
+        }
+        if (board.isBlack(pawn) || board.isKing(pawn)) {
 
             int downLeft = board.neighborDownLeft(from);
             int downDownLeft = board.neighborDownLeft(downLeft);
@@ -396,20 +394,21 @@ public class EnglishDraughts extends Game {
                 nbKingMovesWithoutCapture = -1;
             }
 
-           from = to;
+            from = to;
         }
 
 
         // Promote to king if the pawn ends on the opposite of the board
-        int squarePawn = move.get(move.size()-1);
+        int squarePawn = move.get(move.size() - 1);
 
         if (this.playerId == playerId.ONE) {
             if (board.inTopRow(squarePawn) && board.get(squarePawn) == board.WHITE_CHECKER) {
-                board.crownPawn(move.get(move.size()));
+                board.crownPawn(move.get(move.size() - 1));
             }
         } else {
             if (board.inBottomRow(squarePawn) && board.get(squarePawn) == board.BLACK_CHECKER) {
-                board.crownPawn(move.get(move.size()));
+                board.crownPawn(move.get(move.size() - 1));
+                board.crownPawn(move.get(move.size() - 1));
             }
         }
 
