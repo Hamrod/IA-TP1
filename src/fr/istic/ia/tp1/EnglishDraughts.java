@@ -284,6 +284,18 @@ public class EnglishDraughts extends Game {
         return moves;
     }
 
+    private boolean movementAlreadyMade(int from, int to, DraughtsMove move) {
+
+        for (int i = 0; i < move.size()-1; i++) {
+            int c = move.get(i);
+            int nextC = move.get(i+1);
+            if ((c == from || c == to) && (nextC == from || nextC == to)) return true;
+        }
+
+
+        return false;
+    }
+
     private ArrayList<Move> possibleCaptureMovements(DraughtsMove move) {
 
         ArrayList<Move> moves = new ArrayList<>();
@@ -297,7 +309,7 @@ public class EnglishDraughts extends Game {
             int upRight = board.neighborUpRight(from);
             int upUpRight = board.neighborUpRight(upRight);
 
-            if (upLeft != 0 && upUpLeft != 0) {
+            if (upLeft != 0 && upUpLeft != 0 && !movementAlreadyMade(from, upUpLeft, move)) {
                 if (isAdversary(upLeft) && isEmpty(upUpLeft)) {
                     DraughtsMove upLeftMove = new DraughtsMove();
                     upLeftMove.addAll(move);
@@ -311,7 +323,7 @@ public class EnglishDraughts extends Game {
                     }
                 }
             }
-            if (upRight != 0 && upUpRight != 0) {
+            if (upRight != 0 && upUpRight != 0 && !movementAlreadyMade(from, upUpRight, move)) {
                 if (isAdversary(upRight) && isEmpty(upUpRight)) {
                     DraughtsMove upRightMove = new DraughtsMove();
                     upRightMove.addAll(move);
@@ -334,7 +346,7 @@ public class EnglishDraughts extends Game {
             int downRight = board.neighborDownRight(from);
             int downDownRight = board.neighborDownRight(downRight);
 
-            if (downLeft != 0 && downDownLeft != 0) {
+            if (downLeft != 0 && downDownLeft != 0 && !movementAlreadyMade(from, downDownLeft, move)) {
                 if (isAdversary(downLeft) && isEmpty(downDownLeft)) {
                     DraughtsMove downLeftMove = new DraughtsMove();
                     downLeftMove.addAll(move);
@@ -348,7 +360,7 @@ public class EnglishDraughts extends Game {
                     }
                 }
             }
-            if (downRight != 0 && downDownRight != 0) {
+            if (downRight != 0 && downDownRight != 0 && !movementAlreadyMade(from, downDownRight, move)) {
                 if (isAdversary(downRight) && isEmpty(downDownRight)) {
                     DraughtsMove downRightMove = new DraughtsMove();
                     downRightMove.addAll(move);
