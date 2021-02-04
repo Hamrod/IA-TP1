@@ -403,12 +403,11 @@ public class EnglishDraughts extends Game {
 
         if (this.playerId == playerId.ONE) {
             if (board.inTopRow(squarePawn) && board.get(squarePawn) == board.WHITE_CHECKER) {
-                board.crownPawn(move.get(move.size() - 1));
+                board.crownPawn(squarePawn);
             }
         } else {
             if (board.inBottomRow(squarePawn) && board.get(squarePawn) == board.BLACK_CHECKER) {
-                board.crownPawn(move.get(move.size() - 1));
-                board.crownPawn(move.get(move.size() - 1));
+                board.crownPawn(squarePawn);
             }
         }
 
