@@ -294,15 +294,51 @@ public class MonteCarloTreeSearch {
 
         // List of visited nodes
 
+        List<EvalNode> visited = new ArrayList<>();
+
         // Start from the root
+        EvalNode node = root;
+        visited.add(node);
 
         // Selection (with UCT tree policy)
+        while (node.children.size() > 0) {
+            int N = node.n;
+            double c = 1/Math.sqrt(2);
+            double max = 0;
+            double uct = 0;
+            EvalNode currChild;
+            EvalNode bestChild = node.children.get(0);
+
+            for (int i = 0 ; i < node.children.size() ; i++) {
+                currChild = root.children.get(i);
+                uct = ( currChild.w / currChild.n ) + c * Math.sqrt( Math.log(N) / currChild.n );
+                if (uct > max) {
+                    max = uct;
+                    bestChild = currChild;
+                }
+            }
+            node = bestChild;
+        }
 
         // Expand node
+        if(node.game.winner() != null) {
+            return true;
+        }
+
+        Game childGame;
+
+        for (Move move :
+                node.game.possibleMoves()) {
+            childGame = node.game.clone();
+            childGame.play(move);
+            node.children.add(new EvalNode(childGame));
+        }
 
         // Simulate from new node(s)
+        playRandomlyToEnd(node.game);
 
         // Backpropagate results
+
 
         // Return false if tree evaluation should continue
         return false;
@@ -314,9 +350,6 @@ public class MonteCarloTreeSearch {
      * @return The best move to play from the current MCTS tree state.
      */
     public Move getBestMove() {
-        //
-        // TODO Implement MCTS getBestMove
-        //
         int N = root.n;
         double c = 1/Math.sqrt(2);
         double max = 0;
