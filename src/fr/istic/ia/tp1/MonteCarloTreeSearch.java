@@ -320,7 +320,23 @@ public class MonteCarloTreeSearch {
         //
         // TODO Implement MCTS getBestMove
         //
-        return null;
+        int N = root.n;
+        double c = 1/Math.sqrt(2);
+        double max = 0;
+        double uct = 0;
+        EvalNode child;
+        Move move = root.game.possibleMoves().get(0);
+
+        for (int i = 0 ; i < root.children.size() ; i++) {
+            child = root.children.get(i);
+            uct = ( child.w / child.n ) + c * Math.sqrt( Math.log(N) / child.n );
+            if (uct > max) {
+                max = uct;
+                move = root.game.possibleMoves().get(i);
+            }
+        }
+
+        return move;
     }
 
 
