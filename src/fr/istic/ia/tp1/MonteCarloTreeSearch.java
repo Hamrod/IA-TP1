@@ -318,6 +318,7 @@ public class MonteCarloTreeSearch {
                 }
             }
             node = bestChild;
+            visited.add(node);
         }
 
         // Expand node
@@ -335,10 +336,14 @@ public class MonteCarloTreeSearch {
         }
 
         // Simulate from new node(s)
-        playRandomlyToEnd(node.game);
+        RolloutResults res = rollOut(node.game, 1);
 
         // Backpropagate results
-
+        for (EvalNode n:
+             visited) {
+            n.n += res.n;
+            n.w += res.nbWins(root.game.player());
+        }
 
         // Return false if tree evaluation should continue
         return false;
