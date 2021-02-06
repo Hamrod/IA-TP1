@@ -149,9 +149,6 @@ public class MonteCarloTreeSearch {
          * @param winner
          */
         public void update(PlayerId winner) {
-            //
-            // TODO implement the update of RolloutResults ( a vérifier )
-            //
             switch (winner) {
                 case ONE:
                     win1++;
