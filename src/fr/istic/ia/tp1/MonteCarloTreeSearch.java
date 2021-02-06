@@ -73,10 +73,7 @@ public class MonteCarloTreeSearch {
          * @return Estimated probability of win for the node
          */
         double score() {
-            //
-            // TODO implement the score function for a node
-            //
-            return 0.0;
+            return w/n;
         }
 
         /**
