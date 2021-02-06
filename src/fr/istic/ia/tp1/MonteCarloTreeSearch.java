@@ -82,11 +82,8 @@ public class MonteCarloTreeSearch {
          * @param res
          */
         void updateStats(RolloutResults res) {
-            //
-            // TODO implement updateStats for a node
-            //
             this.n = n + res.n;
-
+            this.w =  w + res.win1;
         }
     }
 
