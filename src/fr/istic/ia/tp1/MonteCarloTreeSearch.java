@@ -215,10 +215,10 @@ public class MonteCarloTreeSearch {
      */
     static PlayerId playRandomlyToEnd(Game game) {
 
-        while (game.winner() == null) {
+        Player player1 = new PlayerRandom();
+        Player player2 = new PlayerRandom();
 
-            Player player1 = new PlayerRandom();
-            Player player2 = new PlayerRandom();
+        while (game.winner() == null) {
 
             Move move = null;
             switch (game.player()) {
@@ -310,7 +310,7 @@ public class MonteCarloTreeSearch {
             EvalNode bestChild = node.children.get(0);
 
             for (int i = 0 ; i < node.children.size() ; i++) {
-                currChild = root.children.get(i);
+                currChild = node.children.get(i);
                 uct = ( currChild.w / currChild.n ) + c * Math.sqrt( Math.log(N) / currChild.n );
                 if (uct > max) {
                     max = uct;
