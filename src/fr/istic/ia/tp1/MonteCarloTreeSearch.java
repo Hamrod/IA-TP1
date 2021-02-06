@@ -13,6 +13,7 @@ import fr.istic.ia.tp1.Game.PlayerId;
  *
  * @author vdrevell
  */
+@SuppressWarnings("ALL")
 public class MonteCarloTreeSearch {
 
     /**
@@ -87,6 +88,8 @@ public class MonteCarloTreeSearch {
             //
             // TODO implement updateStats for a node
             //
+            this.n = n + res.n;
+
         }
     }
 
