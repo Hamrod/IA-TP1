@@ -83,7 +83,7 @@ public class MonteCarloTreeSearch {
          */
         void updateStats(RolloutResults res) {
             this.n = n + res.n;
-            this.w =  w + res.win1;
+            this.w =  w + res.nbWins(game.player());
         }
     }
 
@@ -233,8 +233,8 @@ public class MonteCarloTreeSearch {
             }
 
             if (move == null) {
-                System.out.println("Error, " + game.playerName(game.player()) + " cannot play. Abort.");
-                return null;
+                if(game.player() == PlayerId.ONE) return PlayerId.TWO;
+                else if ((game.player() == PlayerId.TWO))return PlayerId.TWO;
             }
             game.play(move);
         }
