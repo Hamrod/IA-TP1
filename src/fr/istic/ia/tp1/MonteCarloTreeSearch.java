@@ -157,6 +157,7 @@ public class MonteCarloTreeSearch {
                 default:
                     break;
             }
+            n++;
         }
 
         /**
