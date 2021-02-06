@@ -258,10 +258,11 @@ public class MonteCarloTreeSearch {
      * @return A RolloutResults object containing the number of wins for each player and the number of simulations
      */
     static RolloutResults rollOut(final Game game, int nbRuns) {
-        //
-        // TODO implement rollOut
-        //
-        return null;
+        RolloutResults rollOut = new RolloutResults();
+        for (int i = 0; i <nbRuns; i++ ){
+           rollOut.update(playRandomlyToEnd(game.clone()));
+        }
+        return rollOut;
     }
 
     /**
