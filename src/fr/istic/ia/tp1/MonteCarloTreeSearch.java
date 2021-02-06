@@ -223,10 +223,31 @@ public class MonteCarloTreeSearch {
      * @return The PlayerId of the winner (or NONE if equality or timeout).
      */
     static PlayerId playRandomlyToEnd(Game game) {
-        //
-        // TODO implement playRandomlyToEnd
-        //
-        return null;
+
+        while (game.winner() == null) {
+
+            Player player1 = new PlayerRandom();
+            Player player2 = new PlayerRandom();
+
+            Move move = null;
+            switch (game.player()) {
+                case ONE:
+                    move = player1.play(game);
+                    break;
+                case TWO:
+                    move = player2.play(game);
+                    break;
+                default:
+                    move = null;
+            }
+
+            if (move == null) {
+                System.out.println("Error, " + game.playerName(game.player()) + " cannot play. Abort.");
+                return null;
+            }
+            game.play(move);
+        }
+        return game.winner();
     }
 
     /**
