@@ -334,7 +334,7 @@ public class MonteCarloTreeSearch {
         }
 
         // Simulate from new node(s)
-        RolloutResults res = rollOut(node.game, 10);
+        RolloutResults res = rollOut(node.game, 100);
 
         // Backpropagate results
         for (EvalNode n :
