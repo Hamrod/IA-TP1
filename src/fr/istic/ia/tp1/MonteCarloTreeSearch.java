@@ -60,11 +60,11 @@ public class MonteCarloTreeSearch {
          *
          * @return UCT value for the node
          */
-        double uct() {
-            //
-            // TODO implement the UCT function (Upper Confidence Bound for Trees)
-            //
-            return 0.0;
+        double uct(int nbTimeParentVisited) {
+            double c = Math.sqrt(2);
+            double uct = 0;
+            uct = score() + c * Math.sqrt(Math.log(nbTimeParentVisited) / this.n);
+            return uct;
         }
 
         /**
@@ -73,7 +73,7 @@ public class MonteCarloTreeSearch {
          * @return Estimated probability of win for the node
          */
         double score() {
-            return w/n;
+            return w / n;
         }
 
         /**
@@ -83,7 +83,7 @@ public class MonteCarloTreeSearch {
          */
         void updateStats(RolloutResults res) {
             this.n = n + res.n;
-            this.w =  w + res.nbWins(game.player());
+            this.w = w + res.nbWins(game.player());
         }
     }
 
@@ -234,8 +234,7 @@ public class MonteCarloTreeSearch {
             }
 
             if (move == null) {
-                if(game.player() == PlayerId.ONE) return PlayerId.TWO;
-                else if ((game.player() == PlayerId.TWO))return PlayerId.TWO;
+               return game.player();
             }
             game.play(move);
         }
@@ -251,9 +250,12 @@ public class MonteCarloTreeSearch {
      */
     static RolloutResults rollOut(final Game game, int nbRuns) {
         RolloutResults rollOut = new RolloutResults();
-        for (int i = 0; i <nbRuns; i++ ){
-           rollOut.update(playRandomlyToEnd(game.clone()));
+        for (int i = 0; i < nbRuns; i++) {
+            rollOut.update(playRandomlyToEnd(game.clone()));
         }
+        System.out.println("n : " + rollOut.n);
+        System.out.println("win 1 : " + rollOut.win1);
+        System.out.println("win 2 : " + rollOut.win2);
         return rollOut;
     }
 
@@ -289,12 +291,7 @@ public class MonteCarloTreeSearch {
      * @return <code>true</code> if there is no need for further exploration (to speed up end of games).
      */
     public boolean evaluateTreeOnce() {
-        //
-        // TODO implement MCTS evaluateTreeOnce
-        //
-
         // List of visited nodes
-
         List<EvalNode> visited = new ArrayList<>();
 
         // Start from the root
@@ -304,15 +301,15 @@ public class MonteCarloTreeSearch {
         // Selection (with UCT tree policy)
         while (node.children.size() > 0) {
             int N = node.n;
-            double c = 1/Math.sqrt(2);
+            double c = 1 / Math.sqrt(2);
             double max = 0;
             double uct = 0;
             EvalNode currChild;
             EvalNode bestChild = node.children.get(0);
 
-            for (int i = 0 ; i < node.children.size() ; i++) {
+            for (int i = 0; i < node.children.size(); i++) {
                 currChild = node.children.get(i);
-                uct = ( currChild.w / currChild.n ) + c * Math.sqrt( Math.log(N) / currChild.n );
+                uct = (currChild.w / currChild.n) + c * Math.sqrt(Math.log(N) / currChild.n);
                 if (uct > max) {
                     max = uct;
                     bestChild = currChild;
@@ -323,7 +320,7 @@ public class MonteCarloTreeSearch {
         }
 
         // Expand node
-        if(node.game.winner() != null) {
+        if (node.game.winner() != null) {
             return true;
         }
 
@@ -337,11 +334,11 @@ public class MonteCarloTreeSearch {
         }
 
         // Simulate from new node(s)
-        RolloutResults res = rollOut(node.game, 1);
+        RolloutResults res = rollOut(node.game, 10);
 
         // Backpropagate results
-        for (EvalNode n:
-             visited) {
+        for (EvalNode n :
+                visited) {
             n.n += res.n;
             n.w += res.nbWins(root.game.player());
         }
@@ -357,21 +354,17 @@ public class MonteCarloTreeSearch {
      */
     public Move getBestMove() {
         int N = root.n;
-        double c = 1/Math.sqrt(2);
         double max = 0;
         double uct = 0;
-        EvalNode child;
         Move move = root.game.possibleMoves().get(0);
 
-        for (int i = 0 ; i < root.children.size() ; i++) {
-            child = root.children.get(i);
-            uct = ( child.w / child.n ) + c * Math.sqrt( Math.log(N) / child.n );
+        for (int i = 0; i < root.children.size(); i++) {
+            uct = root.children.get(i).uct(N);
             if (uct > max) {
                 max = uct;
                 move = root.game.possibleMoves().get(i);
             }
         }
-
         return move;
     }
 
