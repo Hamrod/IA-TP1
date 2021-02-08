@@ -62,8 +62,7 @@ public class MonteCarloTreeSearch {
          */
         double uct(int nbTimeParentVisited) {
             double c = Math.sqrt(2);
-            double uct = 0;
-            uct = score() + c * Math.sqrt(Math.log(nbTimeParentVisited) / this.n);
+            double uct = score() + c * Math.sqrt(Math.log(nbTimeParentVisited) / this.n);
             return uct;
         }
 
@@ -234,7 +233,8 @@ public class MonteCarloTreeSearch {
             }
 
             if (move == null) {
-               return game.player();
+                if (game.player() == PlayerId.ONE) return PlayerId.TWO;
+                if (game.player() == PlayerId.TWO) return PlayerId.ONE;
             }
             game.play(move);
         }
