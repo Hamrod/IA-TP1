@@ -253,9 +253,9 @@ public class MonteCarloTreeSearch {
         for (int i = 0; i < nbRuns; i++) {
             rollOut.update(playRandomlyToEnd(game.clone()));
         }
-        System.out.println("n : " + rollOut.n);
-        System.out.println("win 1 : " + rollOut.win1);
-        System.out.println("win 2 : " + rollOut.win2);
+        //System.out.println("n : " + rollOut.n);
+        //System.out.println("win 1 : " + rollOut.win1);
+        //System.out.println("win 2 : " + rollOut.win2);
         return rollOut;
     }
 

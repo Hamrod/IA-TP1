@@ -227,7 +227,7 @@ public class EnglishDraughts extends Game {
             }
         }
 
-        System.out.println(moves);
+        //System.out.println(moves);
         return moves;
     }
 
@@ -392,7 +392,6 @@ public class EnglishDraughts extends Game {
         DraughtsMove move = (DraughtsMove) aMove;
 
         // Move pawn and capture opponents
-        //FIXME Ne fonctionne probablement pas
         Iterator<Integer> it = move.iterator();
         Integer from = it.next();
         StringBuffer sb = new StringBuffer();
