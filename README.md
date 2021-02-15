@@ -3,6 +3,8 @@
 **Barbot Malo
 Beurel Luca**
 
+IMPORTANT : Nous vous avons rendu le TP par mail dans le temps imparti avant que nous nous rendions compte qu'il fallait le rendre par moodle. Désolé du temps de retard affiché sur le rendu.
+
 Après plusieurs essais sur différentes valeurs de **c** nous avons constaté que $\sqrt{2}$ était une valeur plutot équilibrée, nous l'avons donc choisie.
 
 Nous avons fait quelques statistiques pour tenter de mesurer l'efficacité de notre IA.
